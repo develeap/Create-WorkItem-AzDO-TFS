@@ -1,0 +1,93 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test-javascript:
+    name: JavaScript Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install Dependencies
+        id: npm-ci
+        run: npm ci
+
+      - name: Check Format
+        id: npm-format-check
+        run: npm run format:check
+
+      - name: Lint
+        id: npm-lint
+        run: npm run lint
+
+      - name: Test
+        id: npm-ci-test
+        run: npm run ci-test
+
+  test-action:
+    name: GitHub Actions Test - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            path_separator: /
+          - os: windows-latest
+            path_separator: \
+          - os: macos-latest
+            path_separator: /
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Create files
+        run: |
+          echo "hello" > ${{ github.workspace }}${{ matrix.path_separator }}t1.txt
+          echo "hello" > ${{ github.workspace }}${{ matrix.path_separator }}t2.json
+          echo "hello" > ${{ github.workspace }}${{ matrix.path_separator }}t3.txt
+          echo "hello" > ${{ github.workspace }}${{ matrix.path_separator }}t4.html
+
+      - name: Test Local Action
+        id: test-action
+        uses: ./
+        with:
+          token: '${{ secrets.azure_devops_token }}'
+          organization_url: 'https://dev.azure.com/partnerEladCirt'
+          project: 'test'
+          workitem_type: 'Task'
+          field_mappings: |
+            'Title = CI L7 - Tests failed'
+            'Tags = Auto Bug'
+            'AssignedTo = Elad Cirt'
+            'AreaPath = test'
+          attach_files: |
+            '*.txt'
+            't2.json'
+            '${{ github.workspace }}${{ matrix.path_separator }}t4.html'
+
+      - name: Print Output
+        id: output
+        run: |
+          echo "${{ steps.test-action.outputs.workitem_url }}"

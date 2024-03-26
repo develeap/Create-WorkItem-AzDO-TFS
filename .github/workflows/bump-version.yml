@@ -1,0 +1,70 @@
+name: Bump version
+
+on:
+  workflow_run:
+    workflows:
+      - Continuous Integration
+    branches:
+      - main
+    types:
+      - completed
+  workflow_dispatch:
+  # checkov:skip=CKV_GHA_7: need version bumping
+    inputs:
+      version:
+        type: string
+        description: >
+          'The version to bump to.
+          Must be a valid semver version. Example: v1.0.0'
+        required: true
+
+permissions: {}
+
+jobs:
+  build:
+    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Bump version and push tag
+        id: bump-version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ github.event.inputs.version }}
+
+      - name: Create a GitHub release
+        id: create-release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.bump-version.outputs.new_tag }}
+          name: Release ${{ steps.bump-version.outputs.new_tag }}
+          generateReleaseNotes: true
+
+      - name: Extract major version
+        run: |
+          IFS='.' read -r -a SPLIT_TAG <<< "${{ steps.bump-version.outputs.new_tag }}"
+          MAJOR="${SPLIT_TAG[0]}"
+          echo "Major is: $MAJOR"
+          echo "MAJOR=$MAJOR" >> "$GITHUB_ENV"
+
+      - name: Update major tag
+        id: major-tag-update
+        env:
+          MAJOR: ${{ env.MAJOR }}
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+          git tag --annotate --force ${{ env.MAJOR }} -m "Release ${{ env.MAJOR }}"
+          git tag --annotate --force latest -m "Release latest (${{ steps.bump-version.outputs.new_tag }})"
+
+          git push --force origin ${{ env.MAJOR }}
+          git push --force origin latest
+
+      - name: Workflow notices
+        run: echo "::notice title=Release::${{ steps.create-release.outputs.html_url }}"
