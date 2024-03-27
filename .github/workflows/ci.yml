@@ -78,9 +78,9 @@ jobs:
           project: 'test'
           workitem_type: 'Task'
           field_mappings: |
-            'Title = CI L7 - Tests failed'
+            'Title = Tests failed'
             'Tags = Auto Bug'
-            'AssignedTo = Elad Cirt'
+            'AssignedTo = Elad Develeap'
             'AreaPath = test'
           attach_files: |
             '*.txt'
