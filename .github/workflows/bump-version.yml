@@ -4,6 +4,9 @@ on:
   workflow_run:
     workflows:
       - Continuous Integration
+      - Lint Codebase
+      - CodeQL
+      - Check Transpiled JavaScript
     branches:
       - main
     types:
@@ -29,6 +32,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Wait for all workflow_run
+        uses: ahmadnassri/action-workflow-run-wait@v1
+        with:
+          timeout: 300000
+          delay: 10000
 
       - name: Bump version and push tag
         id: bump-version
