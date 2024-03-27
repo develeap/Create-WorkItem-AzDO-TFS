@@ -74,7 +74,7 @@ jobs:
         uses: ./
         with:
           token: '${{ secrets.azure_devops_token }}'
-          organization_url: 'https://dev.azure.com/partnerEladCirt'
+          organization_url: 'https://dev.azure.com/EladDeveleap'
           project: 'test'
           workitem_type: 'Task'
           field_mappings: |
