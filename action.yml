@@ -1,6 +1,6 @@
-name: "Create WorkItem"
-description: "Create a work item in Azure Devops/tfs"
-author: "EladCirt Develeap"
+name: 'Create WorkItem'
+description: 'Create a work item in Azure Devops/tfs'
+author: 'Elad Develeap'
 
 inputs:
   token:
@@ -47,12 +47,12 @@ inputs:
 
 outputs:
   workitem_url:
-    description: "The url of the created work item"
+    description: 'The url of the created work item'
 
 branding:
-  icon: "edit"
-  color: "red"
+  icon: 'edit'
+  color: 'red'
 
 runs:
-  using: "node20"
-  main: "dist/index.js"
+  using: 'node20'
+  main: 'dist/index.js'
