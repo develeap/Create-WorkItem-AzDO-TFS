@@ -1,10 +1,6 @@
 name: 'Create WorkItem'
 description: 'Create a work item in Azure Devops/tfs'
-<<<<<<< HEAD
-author: 'EladCirt Develeap'
-=======
 author: 'Elad Develeap'
->>>>>>> 84bcc51c0476ae085e5ec22c5506985155faf47e
 
 inputs:
   token:
