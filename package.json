@@ -68,7 +68,7 @@
     "azure-devops-node-api": "^13.0.0",
     "fs": "^0.0.1-security",
     "glob": "^10.3.10",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
