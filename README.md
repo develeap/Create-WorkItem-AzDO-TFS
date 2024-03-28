@@ -2,8 +2,8 @@
 
 [![Build and Test](https://github.com/develeap/Create-WorkItem-AzDO-TFS/actions/workflows/ci.yml/badge.svg)](https://github.com/develeap/Create-WorkItem-AzDO-TFS/actions/workflows/ci.yml)
 
-This actions create work item in Azure Devops or TFS.
-It can optionally add files to the work item.
+This GitHub Action automates the process of creating work items in Azure DevOps or TFS.  
+It allows for the creation of work items of various types and provides the option to attach files to them.
 
 ## Usage
 
@@ -71,8 +71,9 @@ The field_mappings input need to contain a valid workitem field, either a [defau
 
 ## Attach Files
 
-You can attach files to the work item. The file can be absolute path or filename in the current directory.
-the path and the file name can contain wildcards. Example:
+Files can be attached to the work item to provide additional context or documentation.  
+You can specify file paths as absolute or relative to the current directory, and wildcard characters are supported.  
+Example:
 
 <details>
 <summary>Linux \ Macos</summary>
