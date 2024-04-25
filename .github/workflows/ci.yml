@@ -12,9 +12,19 @@ permissions:
   contents: read
 
 jobs:
-  test-javascript:
-    name: JavaScript Tests
-    runs-on: ubuntu-latest
+  test-action:
+    name: GitHub Actions Test - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            path_separator: /
+          - os: windows-latest
+            path_separator: \
+          - os: macos-latest
+            path_separator: /
     steps:
       - name: Checkout
         id: checkout
@@ -46,24 +56,6 @@ jobs:
         id: npm-ci-test
         run: |
           npm run ci-test
-
-  test-action:
-    name: GitHub Actions Test - ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-latest
-            path_separator: /
-          - os: windows-latest
-            path_separator: \
-          - os: macos-latest
-            path_separator: /
-    steps:
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@v4
 
       - name: Create files
         run: |
