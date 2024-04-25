@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # This script runs the 'npm run all' command
+exit_code=0
 
 # Run the npm command
 npm run all
@@ -8,14 +9,16 @@ npm run all
 # Check the exit status and handle errors if needed
 if [ $? -ne 0 ]; then
     echo "An error occurred while running 'npm run all'."
-    exit 1
+    exit_code=1
 fi
 
 # Check for any changes in the dist/ directory
 if [ "$(git diff --ignore-space-at-eol --text dist/ | wc -l)" -gt "0" ]; then
     echo "The 'npm run all' command has modified the dist/ directory. Please run 'npm run all' locally and commit the changes."
-
-    # Restore the files that changed after running 'npm run all'
-    git restore --staged --worktree dist/index.js dist/index.js.map badges/coverage.svg
-    exit 1
+    exit_code=1
 fi
+
+# Restore the files that changed after running 'npm run all'
+git restore --staged --worktree dist/index.js dist/index.js.map badges/coverage.svg
+
+exit $exit_code
