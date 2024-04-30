@@ -4,6 +4,9 @@ on:
   workflow_run:
     workflows:
       - Continuous Integration
+      - Lint Codebase
+      - CodeQL
+      - Check Transpiled JavaScript
     branches:
       - main
     types:
