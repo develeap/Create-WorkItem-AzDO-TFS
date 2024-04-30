@@ -5,6 +5,9 @@ on:
     - cron: '0 0 1 * *'
   push:
 
+permissions:
+  contents: read
+
 jobs:
   Delete:
     name: Delete old workitems
