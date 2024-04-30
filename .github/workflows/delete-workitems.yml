@@ -37,11 +37,18 @@ jobs:
             async function deleteWorkItem(workItemTrackingApi) {
               const wiql = 'SELECT [System.Id] FROM WorkItems';
               const result = await workItemTrackingApi.queryByWiql({ query: wiql });
-              const workItemsId = result.workItems.map(item => item.id);
 
-              for (const workItemId of workItemsId) {
-              await workItemTrackingApi.deleteWorkItem(workItemId, null, true);
-              console.log(`Deleted work item ${workItemId}`);
+              if (result) {
+                const workItemsId = result.workItems.map(item => item.id);
+            
+                for (const workItemId of workItemsId) {
+                  await workItemTrackingApi.deleteWorkItem(workItemId, null, true);
+                  console.log(`Deleted workitem ${workItemId}`);
+                }
+              }
+
+              else {
+                console.log('No workitems found');
               }
             }
 
