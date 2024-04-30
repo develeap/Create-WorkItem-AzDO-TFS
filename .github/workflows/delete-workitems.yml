@@ -37,6 +37,7 @@ jobs:
             async function deleteWorkItem(workItemTrackingApi) {
               const wiql = 'SELECT [System.Id] FROM WorkItems';
               const result = await workItemTrackingApi.queryByWiql({ query: wiql });
+              console.log(result)
 
               if (result) {
                 const workItemsId = result.workItems.map(item => item.id);
