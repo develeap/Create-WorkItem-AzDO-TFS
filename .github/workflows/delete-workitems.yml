@@ -3,7 +3,7 @@ name: Delete old workitems
 on:
   schedule:
     - cron: '0 0 1 * *'
-  push:
+  workflow_dispatch:  
 
 permissions:
   contents: read
