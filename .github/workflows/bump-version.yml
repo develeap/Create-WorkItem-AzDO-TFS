@@ -37,10 +37,10 @@ jobs:
       - name: Wait for all workflow_run
         continue-on-error: true
         id: Wait
-        uses: ahmadnassri/action-workflow-run-wait@v1
+        uses: smartcontractkit/chainlink-github-actions/utils/wait-for-workflows@main
         with:
-          timeout: 300000
-          delay: 10000
+          max-timeout: "30000"
+          polling-interval: "10000"
 
       - name: Cancel if failed
         if: steps.Wait.outcome != 'success'
