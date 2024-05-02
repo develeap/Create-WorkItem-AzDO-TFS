@@ -1,0 +1,72 @@
+name: Delete old workitems
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:  
+
+permissions:
+  contents: read
+
+jobs:
+  Delete:
+    name: Delete old workitems
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install azure-devops-node-api
+        run: |
+          npm install azure-devops-node-api
+
+      - name: Delete old workitems
+        uses: actions/github-script@v7
+        env:
+          TOKEN: '${{ secrets.azure_devops_token }}'
+          ORGANIZATION_URL: 'https://dev.azure.com/EladDeveleap'
+        with:
+          script: |
+            const azureDevOpsApi = require('azure-devops-node-api');
+
+            /**
+            * Deletes work items from Azure DevOps/TFS.
+            *
+            * @param {import('azure-devops-node-api/WorkItemTrackingApi').IWorkItemTrackingApi} workItemTrackingApi - The Work Item Tracking API.
+            * @returns {Promise<void>} - A promise that resolves when the work items are deleted.
+            */
+            async function deleteWorkItem(workItemTrackingApi) {
+              const wiql = 'SELECT [System.Id] FROM WorkItems';
+              const result = await workItemTrackingApi.queryByWiql({ query: wiql });
+
+              if (result.workItems.length > 0) {
+                const workItemsId = result.workItems.map(item => item.id);
+            
+                for (const workItemId of workItemsId) {
+                  await workItemTrackingApi.deleteWorkItem(workItemId, null, true);
+                  console.log(`Deleted workitem ${workItemId}`);
+                }
+              }
+
+              else {
+                console.log('No workitems found');
+              }
+            }
+
+            /**
+            * Entry point of the script.
+            *
+            * @returns {Promise<void>} - A promise that resolves when the script finishes running.
+            */
+            async function run() {
+              const { TOKEN, ORGANIZATION_URL } = process.env;
+              const authHandler = azureDevOpsApi.getPersonalAccessTokenHandler(TOKEN);
+              const connection = new azureDevOpsApi.WebApi(ORGANIZATION_URL, authHandler);
+              const workItemTrackingApi = await connection.getWorkItemTrackingApi();
+
+              await deleteWorkItem(workItemTrackingApi);
+            }
+
+            run();
