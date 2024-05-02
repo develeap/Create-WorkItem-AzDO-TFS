@@ -16,23 +16,27 @@ See [`action.yml`](action.yml)
   with:
     # Azure Devops/tfs personal access token
     # [More about how to create a personal access token](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)
+    # required: true
     token: ''
 
     # Azure Devops/tfs organization url.
     # For Azure devops: https://dev.azure.com/{organization}
     # For tfs: https://{server:port}/tfs/{collection}
     # [More about organization url](https://learn.microsoft.com/en-us/rest/api/azure/devops)
+    # required: true
     organization_url: ''
 
     # The team project in which to create the new work item.
     # For example: myProject
     # [More about team projects](https://learn.microsoft.com/en-us/azure/devops/organizations/projects/about-projects?view-projects-in-your-organization)
+    # required: true
     project: ''
 
     # Specify the work item type you want to create
     # Example: 'Bug' or 'Task' or 'User Story' or 'Feature' or 'Epic'
     # You can get the project work item types with REST API.
     # [More about work item type](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-item-types/list)
+    # required: true
     workitem_type: ''
 
     # Work item fields mappings to be added to the defect in TFS.
@@ -41,11 +45,13 @@ See [`action.yml`](action.yml)
     # [More about work item type fields](https://learn.microsoft.com/en-us/azure/devops/boards/work-items/guidance/work-item-field?view=azure-devops)
     # You can get list of your project fields with REST API.
     # [More about fields REST API](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/fields/list)
+    # required: true
     field_Mappings: ''
 
     # Files to attach to the work item.
     # Can be file name in the current directory, absolute path to file or path with wildcard.
     # Example: 'file.txt' or 'C:\file.txt' or 'C:\*.txt'
+    # required: false
     attach_files: ''
 ```
 

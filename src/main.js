@@ -72,6 +72,11 @@ async function createAttachments(
     })
   );
 
+  // Log attachArray if in debug mode
+  if (core.isDebug()) {
+    core.debug(`attachArray: ${JSON.stringify(attachArray)}`);
+  }
+
   return attachArray;
 }
 
@@ -209,7 +214,7 @@ async function createWorkItem(
   );
 
   // Create the request body for the work item
-  const requestBodyArray = createBody(fieldMap, attachmentsArray);
+  const requestBodyArray = createBody(fieldMap, { attachmentsArray });
 
   // Attempt to create the work item and catch error if it fails
   const workItem = await workItemTrackingApi.createWorkItem(
