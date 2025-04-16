@@ -7,6 +7,7 @@ inputs:
     description: >
       Azure Devops/tfs personal access token
 
+
       [More on how to create a personal access token]
       (https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)
     required: true
@@ -14,15 +15,18 @@ inputs:
     description: >
       Azure Devops/tfs organization url.
 
+
       For Azure devops: https://dev.azure.com/{organization}
 
-      For tfs: https://{server:port}/tfs/{collection}
-      [More about](https://learn.microsoft.com/en-us/rest/api/azure/devops)
+
+      For tfs: https://{server:port}/tfs/{collection} [More
+      about](https://learn.microsoft.com/en-us/rest/api/azure/devops)
     required: true
   project:
     description: >
       The team project in which to create the new work item.For example:
       myProject
+
 
       [More about team projects]
       (https://learn.microsoft.com/en-us/azure/devops/organizations/projects/about-projects?#view-projects-in-your-organization)
@@ -30,24 +34,35 @@ inputs:
   workitem_type:
     description: >
       Specify the work item type you want to create Example: 'Bug' or 'Task' or
-      'User Story' or 'Feature' or 'Epic' You can get the project work item
-      types with REST API. More about it here:
-      https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-item-types/list
+      'User Story' or 'Feature' or 'Epic'
+
+
+      You can get the project work item types with REST API. [More about it]
+      (https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-item-types/list)
     required: true
   field_Mappings:
     description: >
-      Work item fields mappings to be added to the defect in TFS. Field
-      consists of referenceName and value. Example: 'System.Title = Title of the
-      defect' You can find more about work item fields here:
-      https://learn.microsoft.com/en-us/azure/devops/boards/work-items/guidance/work-item-field?view=azure-devops
-      You can get list of with fields REST API. More about it here:
-      https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/fields/list
+      Work item fields mappings to be added to the defect in TFS. Field consists
+      of referenceName and value.
+
+
+      Example: 'System.Title = Title of the defect'
+
+
+      [More about work item fields]
+      (https://learn.microsoft.com/en-us/azure/devops/boards/work-items/guidance/work-item-field?view=azure-devops)
+
+
+      You can get list of with fields REST API. (More about it)
+      [https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/fields/list]
     required: true
   attach_files:
     description: >
       Files to attach to the work item. Can be file name in the current
-      directory, absolute path to file or path with wildcard. Example:
-      'file.txt' or 'C:\file.txt' or 'C:\*.txt'
+      directory, absolute path to file or path with wildcard.
+
+
+      Example: 'file.txt' or 'C:\file.txt' or 'C:\*.txt'
     required: false
 
 outputs:
