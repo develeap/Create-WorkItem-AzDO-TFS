@@ -36,10 +36,10 @@ inputs:
     required: true
   field_Mappings:
     description: |
-      Work item fields mappings to be added to the defect in TFS. Field consists
+      Work item fields mappings to be added to the work item in TFS. Field consists
       of referenceName and value.
 
-      Example: 'System.Title = Title of the defect'
+      Example: 'System.Title = Title of the work item'
 
       [More about work item fields](https://learn.microsoft.com/en-us/azure/devops/boards/work-items/guidance/work-item-field?view=azure-devops)
 
